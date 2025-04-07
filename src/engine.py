@@ -1,9 +1,9 @@
-import os
+from pathlib import Path
 import pygame
 from . import globals
 from .player import Player
 
-bg_path = os.path.join(os.path.dirname(__file__), '../assets/art/background.png')
+bg_path = Path('assets', 'art', 'background.png')
 
 # This method runs the game and is called in the top-level main module
 def run():

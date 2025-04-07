@@ -1,9 +1,9 @@
-import os
+from pathlib import Path
 import pygame
 from . import globals
 from .projectile import Projectile
 
-sprite_path = os.path.join(os.path.dirname(__file__), '../assets/art/spaceships/bgbattleship.png')
+sprite_path = Path('assets', 'art', 'spaceships', 'bgbattleship.png')
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):

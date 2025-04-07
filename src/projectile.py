@@ -1,8 +1,8 @@
-import os
+from pathlib import Path
 import pygame
 from . import globals
 
-sprite_path = os.path.join(os.path.dirname(__file__), '../assets/art/projectiles/laserBullet.png')
+sprite_path = Path('assets', 'art', 'projectiles', 'laserBullet.png')
 
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos, heading):
