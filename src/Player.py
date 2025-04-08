@@ -3,7 +3,8 @@ import pygame
 from . import globals
 from .projectile import Projectile
 
-sprite_path = Path('assets', 'art', 'spaceships', 'bgbattleship.png')
+sprite_path = Path("assets", "art", "spaceships", "bgbattleship.png")
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -22,7 +23,9 @@ class Player(pygame.sprite.Sprite):
         self.sprite_rotation_offset = -90
 
     def update(self):
-        collisions = pygame.sprite.spritecollide(self, globals.ASTEROID_SPRITES, False, collided=pygame.sprite.collide_mask)
+        collisions = pygame.sprite.spritecollide(
+            self, globals.ASTEROID_SPRITES, False, collided=pygame.sprite.collide_mask
+        )
         if len(collisions):
             globals.LIVES -= 1
             self.destroy()
@@ -83,6 +86,6 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = globals.WINDOW_HEIGHT
         if self.pos.y > globals.WINDOW_HEIGHT:
             self.pos.y = 0
-    
+
     def destroy(self):
         self.kill()

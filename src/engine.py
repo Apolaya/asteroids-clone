@@ -4,7 +4,7 @@ import pygame
 
 from . import globals, utilities
 from .player import Player
-from .asteroid import Asteroid
+from .Asteroid import Asteroid, AsteroidManager
 
 bg_path = Path("assets", "art", "background.png")
 
@@ -19,21 +19,15 @@ def run():
     globals.DT = 0
     last_spawn = 0
 
+    spawner = AsteroidManager()
+    spawner.start_game()
+
     player = Player(
         pygame.math.Vector2((screen.get_width() / 2, screen.get_height() / 2))
     )
     globals.PLAYER_SPRITE.add(player)
 
-    asteroid = Asteroid(utilities.spawn_location())
-    globals.ASTEROID_SPRITES.add(asteroid)
-
     while running:
-        current_tick = pygame.time.get_ticks()
-        if current_tick - last_spawn >= globals.SPAWN_RATE:
-            last_spawn = current_tick
-            asteroid = Asteroid(utilities.spawn_location())
-            globals.ASTEROID_SPRITES.add(asteroid)
-
         if len(globals.PLAYER_SPRITE) < 1:
             player = Player(
                 pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
@@ -57,22 +51,18 @@ def run():
         if keys[pygame.K_SPACE] or left_mouse:
             player.shoot()
 
+        spawner.update()
         globals.PLAYER_SPRITE.update()
         globals.ASTEROID_SPRITES.update()
         globals.PROJECTILE_SPRITES.update()
         screen.blit(background, (0, 0))
 
-        if globals.LIVES < 1:
-            print("Game over!")
-            running = False
-            break
+        spawner.handle_collision()
 
         globals.PLAYER_SPRITE.draw(screen)
         globals.ASTEROID_SPRITES.draw(screen)
         globals.PROJECTILE_SPRITES.draw(screen)
         pygame.display.flip()
-
-        print(globals.SCORE)
 
         # limits FPS and returns value for framerate-independent physics
         globals.DT = clock.tick(60) / 1000
