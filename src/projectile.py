@@ -8,7 +8,7 @@ sprite_path = Path("assets", "art", "projectiles", "laserBullet.png")
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos, heading):
         super().__init__()
-        self.ttl = 1250
+        self.ttl = 2500
         self.sprite_scaling = 0.4
         self.large_image = pygame.image.load(sprite_path).convert_alpha()
         self.image = pygame.transform.scale_by(self.large_image, self.sprite_scaling)
@@ -19,10 +19,11 @@ class Projectile(pygame.sprite.Sprite):
         self.speed = globals.PROJECTILE_SPEED
         self.heading = heading
         self.vel = pygame.math.Vector2.from_polar((self.speed, heading))
-        self.created = pygame.time.get_ticks()
+        self.time_alive = 0
 
     def update(self):
-        if pygame.time.get_ticks() - self.created > self.ttl:
+        self.time_alive += globals.CLOCK.get_time()
+        if self.time_alive > self.ttl:
             self.kill()
             return
         self.rotate()
