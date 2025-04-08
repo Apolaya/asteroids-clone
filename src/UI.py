@@ -146,6 +146,10 @@ class EndModal(pygame.Surface):
         header_image, header_rect = header.render("Game over!", (0, 0, 0))
         header_rect.center = (self.rect.width/2, 50)
 
+        score = pygame.freetype.SysFont("Courier", 32, bold=True)
+        score_image, score_rect = score.render("Score: " + str(globals.SCORE), (0, 0, 0))
+        score_rect.center = (self.rect.width/2, 75)
+
         retry = Button(self.button_size, (self.rect.width/2, self.rect.height/2), self.button_color, "Retry")
         self.buttons.append(retry)
 
@@ -155,6 +159,7 @@ class EndModal(pygame.Surface):
         self.blit(retry, retry.rect)
         self.blit(quit, quit.rect)
         self.blit(header_image, header_rect)
+        self.blit(score_image, score_rect)
 
     def check_click(self, mouse):
         x_offset = self.rect.left

@@ -390,6 +390,8 @@ ASTEROID_PATHS = {
     ],
 }
 
+asteroid_sound_path = Path("assets", "sounds", "asteroid_destroyed.wav")
+
 
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, pos=None, size=2, variant=None):
@@ -525,6 +527,7 @@ class AsteroidManager:
         self.wave_timer = 0
         self.wave_duration = 60  # 60 seconds per wave
         self.break_duration = 10  # 10 seconds between waves
+        self.asteroid_sound = pygame.mixer.Sound(asteroid_sound_path)
 
     def update(self):
         # Update wave timer
@@ -596,6 +599,10 @@ class AsteroidManager:
 
         for asteroid in hits:
             if asteroid.take_damage(globals.PROJECTILE_DAMAGE):
+                                
+                self.asteroid_sound.set_volume(asteroid.size * 0.2)
+                self.asteroid_sound.play()
+
                 points += asteroid.points
 
                 # Create smaller asteroids
