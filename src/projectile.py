@@ -30,7 +30,6 @@ class Projectile(pygame.sprite.Sprite):
         self.pos += self.vel * globals.DT
         self.rect.center = self.pos
         self.mask = pygame.mask.from_surface(self.image)
-        self.check_bounds()
 
     def rotate(self):
         self.image = pygame.transform.rotozoom(self.start_img, -self.heading - 90, 1)

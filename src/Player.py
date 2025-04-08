@@ -4,6 +4,8 @@ from . import globals
 from .projectile import Projectile
 
 sprite_path = Path("assets", "art", "spaceships", "bgbattleship.png")
+shoot_sound_path = Path("assets", "sounds", "alienshoot1.wav")
+destroyed_sound_path = Path("assets", "sounds", "mechanical_explosion.wav")
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -20,6 +22,10 @@ class Player(pygame.sprite.Sprite):
         self.fire_delay = 700
         self.last_shot = 0
         self.sprite_rotation_offset = -90
+        self.shoot_sound = pygame.mixer.Sound(shoot_sound_path)
+        self.shoot_sound.set_volume(0.5)
+        self.destroyed_sound = pygame.mixer.Sound(destroyed_sound_path)
+        self.destroyed_sound.set_volume(0.5)
 
     def update(self):
         collisions = pygame.sprite.spritecollide(
@@ -60,6 +66,7 @@ class Player(pygame.sprite.Sprite):
 
     def shoot(self):
         if self.last_shot >= self.fire_delay:
+            self.shoot_sound.play()
             self.last_shot = 0
             origin = self.pos + pygame.math.Vector2.from_polar(
                 (self.image.get_height() / 2, self.angle)
@@ -88,4 +95,5 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = 0
 
     def destroy(self):
+        self.destroyed_sound.play()
         self.kill()

@@ -9,21 +9,28 @@ from .asteroid import AsteroidManager
 from .ui import UI, StartModal, PauseModal, EndModal
 
 bg_path = Path("assets", "art", "background.png")
+music_path = Path("assets", "sounds", "through_space.ogg")
 
 
 # This method runs the game and is called in the top-level main module
 def run():
-    #Initialize engine, set up idsplay, start clock, and set state
+    #Initialize audio mixer and engine, set up display, start clock, and set starting state
+    pygame.mixer.pre_init(44100, -16, 2, 64)
     pygame.init()
+    pygame.mixer.init()
+
+    if pygame.mixer.get_init():
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.set_volume(0.2)
     screen = pygame.display.set_mode((globals.WINDOW_WIDTH, globals.WINDOW_HEIGHT))
     pygame.display.set_caption("Asteroid Survivors")
     background = pygame.image.load(bg_path)
     start_modal = StartModal((globals.WINDOW_WIDTH/2,globals.WINDOW_HEIGHT/2))
     pause_modal = PauseModal((globals.WINDOW_WIDTH/2,globals.WINDOW_HEIGHT/2))
-    end_modal = EndModal((globals.WINDOW_WIDTH/2,globals.WINDOW_HEIGHT/2))
     clock = globals.CLOCK
     state = "START"
     mouse = (-1,-1)
+    respawn_timer = 3
 
     #Create UI, asteroid spawner, and player
     ui = UI(screen)
@@ -35,11 +42,14 @@ def run():
     )
     globals.PLAYER_SPRITE.add(player)
 
+    pygame.mixer.music.play()
+
     #Enter game loop
     while True:
 
         # limits FPS and returns value for framerate-independent physics
         globals.DT = clock.tick(globals.FRAMERATE) / 1000
+        print(globals.SCORE)
 
         #Set state based on input
         for event in pygame.event.get():
@@ -86,6 +96,7 @@ def run():
             continue
         
         if state == "GAMEOVER":
+            end_modal = EndModal((globals.WINDOW_WIDTH/2,globals.WINDOW_HEIGHT/2))
             screen.blit(background, (0,0))
             screen.blit(end_modal, end_modal.rect)
             ui.draw()
@@ -103,11 +114,14 @@ def run():
         if state == "RUNNING":
             #If player is destroyed, respawn and reset wave
             if len(globals.PLAYER_SPRITE) < 1:
-                spawner.reset_game()
-                player = Player(
-                    pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-                )
-                globals.PLAYER_SPRITE.add(player)
+                respawn_timer -= globals.DT
+                if respawn_timer <= 0:
+                  respawn_timer = 3
+                  spawner.reset_game()
+                  player = Player(
+                      pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+                  )
+                  globals.PLAYER_SPRITE.add(player)
 
             #Respond to continuous input from keys and mouse
             keys = pygame.key.get_pressed()
