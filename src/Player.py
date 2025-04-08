@@ -3,7 +3,8 @@ import pygame
 from . import globals
 from .projectile import Projectile
 
-sprite_path = Path('assets', 'art', 'spaceships', 'bgbattleship.png')
+sprite_path = Path("assets", "art", "spaceships", "bgbattleship.png")
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -11,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load(sprite_path).convert_alpha()
         self.start_img = self.image
         self.rect = self.image.get_rect(center=pos)
+        self.mask = pygame.mask.from_surface(self.image)
         self.pos = pygame.math.Vector2(pos)
         self.vel = pygame.math.Vector2(0, 0)
         self.acceleration = 4
@@ -20,9 +22,16 @@ class Player(pygame.sprite.Sprite):
         self.last_shot = pygame.time.get_ticks()
         self.sprite_rotation_offset = -90
 
-    def update(self, dt):
-        self.pos += self.vel * dt
+    def update(self):
+        collisions = pygame.sprite.spritecollide(
+            self, globals.ASTEROID_SPRITES, False, collided=pygame.sprite.collide_mask
+        )
+        if len(collisions):
+            globals.LIVES -= 1
+            self.destroy()
+        self.pos += self.vel * globals.DT
         self.rect.center = self.pos
+        self.mask = pygame.mask.from_surface(self.image)
         self.rotate()
         self.check_bounds()
         self.reduce_velocity()
@@ -49,14 +58,14 @@ class Player(pygame.sprite.Sprite):
                 if self.vel.x < self.max_speed:
                     self.vel.x += self.acceleration
 
-    def shoot(self, group):
+    def shoot(self):
         if pygame.time.get_ticks() - self.last_shot >= self.fire_delay:
             self.last_shot = pygame.time.get_ticks()
             origin = self.pos + pygame.math.Vector2.from_polar(
                 (self.image.get_height() / 2, self.angle)
             )
             projectile = Projectile(origin, self.angle)
-            group.add(projectile)
+            globals.PROJECTILE_SPRITES.add(projectile)
 
     def reduce_velocity(self):
         if self.vel.x < 0:
@@ -77,3 +86,6 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = globals.WINDOW_HEIGHT
         if self.pos.y > globals.WINDOW_HEIGHT:
             self.pos.y = 0
+
+    def destroy(self):
+        self.kill()

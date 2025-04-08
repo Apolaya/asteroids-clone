@@ -2,7 +2,8 @@ from pathlib import Path
 import pygame
 from . import globals
 
-sprite_path = Path('assets', 'art', 'projectiles', 'laserBullet.png')
+sprite_path = Path("assets", "art", "projectiles", "laserBullet.png")
+
 
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos, heading):
@@ -12,6 +13,7 @@ class Projectile(pygame.sprite.Sprite):
         self.large_image = pygame.image.load(sprite_path).convert_alpha()
         self.image = pygame.transform.scale_by(self.large_image, self.sprite_scaling)
         self.start_img = self.image
+        self.mask = pygame.mask.from_surface(self.image)
         self.pos = pygame.math.Vector2(pos)
         self.rect = self.image.get_rect(center=self.pos)
         self.speed = globals.PROJECTILE_SPEED
@@ -19,13 +21,14 @@ class Projectile(pygame.sprite.Sprite):
         self.vel = pygame.math.Vector2.from_polar((self.speed, heading))
         self.created = pygame.time.get_ticks()
 
-    def update(self, dt):
+    def update(self):
         if pygame.time.get_ticks() - self.created > self.ttl:
             self.kill()
             return
         self.rotate()
-        self.pos += self.vel * dt
+        self.pos += self.vel * globals.DT
         self.rect.center = self.pos
+        self.mask = pygame.mask.from_surface(self.image)
         self.check_bounds()
 
     def rotate(self):
