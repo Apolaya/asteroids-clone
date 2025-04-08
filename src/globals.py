@@ -3,7 +3,9 @@ import pygame
 # Scene settings
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 960
-DT = 30
+CLOCK = pygame.time.Clock()
+FRAMERATE = 60
+DT = 0
 LIVES = 3
 SCORE = 0
 

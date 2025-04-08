@@ -5,7 +5,6 @@ from .projectile import Projectile
 
 sprite_path = Path("assets", "art", "spaceships", "bgbattleship.png")
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -19,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.friction = 1
         self.max_speed = 500
         self.fire_delay = 700
-        self.last_shot = pygame.time.get_ticks()
+        self.last_shot = 0
         self.sprite_rotation_offset = -90
 
     def update(self):
@@ -32,6 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.pos += self.vel * globals.DT
         self.rect.center = self.pos
         self.mask = pygame.mask.from_surface(self.image)
+        self.last_shot += globals.CLOCK.get_time()
         self.rotate()
         self.check_bounds()
         self.reduce_velocity()
@@ -59,8 +59,8 @@ class Player(pygame.sprite.Sprite):
                     self.vel.x += self.acceleration
 
     def shoot(self):
-        if pygame.time.get_ticks() - self.last_shot >= self.fire_delay:
-            self.last_shot = pygame.time.get_ticks()
+        if self.last_shot >= self.fire_delay:
+            self.last_shot = 0
             origin = self.pos + pygame.math.Vector2.from_polar(
                 (self.image.get_height() / 2, self.angle)
             )

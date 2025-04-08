@@ -564,6 +564,11 @@ class AsteroidManager:
         self.wave_number = 1
         self.spawn_rate = 1.0
         return "WAVE_START"
+    
+    def reset_game(self):
+        for asteroid in globals.ASTEROID_SPRITES:
+            asteroid.kill()
+        self.start_game()
 
     def spawn_asteroid(self, pos=None, size=None):
         # Create a new asteroid
