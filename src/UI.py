@@ -3,7 +3,7 @@ import pygame.freetype
 
 from . import globals
 
-
+"""Class to handle loading and refreshing of UI header elements."""
 class UI:
     def __init__(self, screen):
         self.screen = screen
@@ -23,8 +23,9 @@ class UI:
         for element in self.elements:
             element.draw()
 
-
+"""Class to manage a text surface displaying the current score."""
 class Scoreboard:
+    """Initialize with text properties and bind to global value for score."""
     def __init__(self, pos, screen):
         self.screen = screen
         self.pos = pos
@@ -35,6 +36,7 @@ class Scoreboard:
         )
         self.rect.topleft = self.pos
 
+    """Called on every frame, update score value to display."""
     def update(self):
         score = str(globals.SCORE)
         self.image, self.rect = self.font.render(
@@ -42,11 +44,13 @@ class Scoreboard:
         )
         self.rect.topleft = self.pos
 
+    """Draw contents of the scoreboard to the display."""
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-
+"""Class to manage text surface displaying the current count of lives"""
 class Lives:
+    """Initialize with text properties and bind to global value for count of lives."""
     def __init__(self, pos, screen):
         self.screen = screen
         self.pos = pos
@@ -57,18 +61,21 @@ class Lives:
         )
         self.rect.topleft = self.pos
 
+    """"Called every frame, update display with current count of lives."""
     def update(self):
-        score = str(globals.LIVES)
+        lives = str(globals.LIVES)
         self.image, self.rect = self.font.render(
-            "Lives: " + score, pygame.Color(255, 255, 255), pygame.Color(0, 0, 0)
+            "Lives: " + lives, pygame.Color(255, 255, 255), pygame.Color(0, 0, 0)
         )
         self.rect.topleft = self.pos
-
+    
+    """Draw contents of the lives counter to the display."""
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-
+"""Class to manage the modal displayed at the start of the game."""
 class StartModal(pygame.Surface):
+    """Initialize instance with Surface properties and button configuration."""
     def __init__(self, pos):
         super().__init__((400, 400))
         self.rect = self.get_rect(center=pos)
@@ -92,6 +99,7 @@ class StartModal(pygame.Surface):
         self.blit(quit, quit.rect)
         self.blit(header_image, header_rect)
 
+    """Check if a click falls in the bounds of a button on this modal."""
     def check_click(self, mouse):
         x_offset = self.rect.left
         y_offset = self.rect.top
@@ -100,7 +108,9 @@ class StartModal(pygame.Surface):
             if temp.collidepoint(mouse):
                 return button.text
             
+"""Class to manage the modal displayed when the game is paused."""           
 class PauseModal(pygame.Surface):
+    """Initialize instance with Surface properties and button configuration."""
     def __init__(self, pos):
         super().__init__((400, 400))
         self.rect = self.get_rect(center=pos)
@@ -124,6 +134,7 @@ class PauseModal(pygame.Surface):
         self.blit(quit, quit.rect)
         self.blit(header_image, header_rect)
 
+    """Check if a click falls in the bounds of a button on this modal."""
     def check_click(self, mouse):
         x_offset = self.rect.left
         y_offset = self.rect.top
@@ -131,8 +142,10 @@ class PauseModal(pygame.Surface):
             collider = pygame.Rect(button.rect.left + x_offset, button.rect.top + y_offset, button.rect.w, button.rect.h)
             if collider.collidepoint(mouse):
                 return button.text
-            
+
+"""Class to manage the modal displayed as a game over screen."""      
 class EndModal(pygame.Surface):
+    """Initialize instance with Surface properties and button configuration."""
     def __init__(self, pos):
         super().__init__((400, 400))
         self.rect = self.get_rect(center=pos)
@@ -141,7 +154,7 @@ class EndModal(pygame.Surface):
         self.buttons = list()
         self.button_size = (200, 50)
         self.button_color = (0, 0, 0)
-
+        
         header = pygame.freetype.SysFont("Courier", 32, bold=True)
         header_image, header_rect = header.render("Game over!", (0, 0, 0))
         header_rect.center = (self.rect.width/2, 50)
@@ -161,6 +174,7 @@ class EndModal(pygame.Surface):
         self.blit(header_image, header_rect)
         self.blit(score_image, score_rect)
 
+    """Check if a click falls in the bounds of a button on this modal."""
     def check_click(self, mouse):
         x_offset = self.rect.left
         y_offset = self.rect.top
@@ -169,7 +183,9 @@ class EndModal(pygame.Surface):
             if collider.collidepoint(mouse):
                 return button.text
 
+"""Helper class to create a pygame Surface that acts as a button."""
 class Button(pygame.Surface):
+    """Initialize the instance with Surface and text properties."""
     def __init__(self, size, pos, color, text):
         super().__init__(size)
         self.fill(color)

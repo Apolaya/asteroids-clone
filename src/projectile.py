@@ -2,10 +2,12 @@ from pathlib import Path
 import pygame
 from . import globals
 
+"""Load asset file paths at import"""
 sprite_path = Path("assets", "art", "projectiles", "laserBullet.png")
 
-
+"""Class to handle projectiles fired from Player object."""
 class Projectile(pygame.sprite.Sprite):
+    """Initialize with sprite properties and initial custom gameplay settings."""
     def __init__(self, pos, heading):
         super().__init__()
         self.ttl = 2500
@@ -21,6 +23,7 @@ class Projectile(pygame.sprite.Sprite):
         self.vel = pygame.math.Vector2.from_polar((self.speed, heading))
         self.time_alive = 0
 
+    """Called on every frame, update state and position."""
     def update(self):
         self.time_alive += globals.CLOCK.get_time()
         if self.time_alive > self.ttl:
@@ -31,16 +34,7 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.mask = pygame.mask.from_surface(self.image)
 
+    """Rotate sprite in the direction of velocity."""
     def rotate(self):
         self.image = pygame.transform.rotozoom(self.start_img, -self.heading - 90, 1)
         self.rect = self.image.get_rect(center=self.rect.center)
-
-    def check_bounds(self):
-        if self.pos.x < 0:
-            self.pos.x = globals.WINDOW_WIDTH
-        if self.pos.x > globals.WINDOW_WIDTH:
-            self.pos.x = 0
-        if self.pos.y < 0:
-            self.pos.y = globals.WINDOW_HEIGHT
-        if self.pos.y > globals.WINDOW_HEIGHT:
-            self.pos.y = 0
