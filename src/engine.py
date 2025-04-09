@@ -4,9 +4,10 @@ import sys
 import pygame
 
 from . import globals
-from .player import Player
-from .asteroid import AsteroidManager
-from .ui import UI, StartModal, PauseModal, EndModal
+from .Player import Player
+from .Asteroid import AsteroidManager
+from .UI import UI, StartModal, PauseModal, EndModal
+
 
 bg_path = Path("assets", "art", "background.png")
 music_path = Path("assets", "sounds", "through_space.ogg")
@@ -55,6 +56,8 @@ def run():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state == "EXIT"
+                print("User closed the window")
+                sys.exit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
