@@ -52,14 +52,14 @@ def run():
 
         # limits FPS and returns value for framerate-independent physics
         globals.DT = clock.tick(globals.FRAMERATE) / 1000
-        print(globals.SCORE)
 
         #Set state based on input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state == "EXIT"
-                print("User closed the window")
+                pygame.quit()
                 sys.exit()
+                return
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -99,6 +99,7 @@ def run():
                 case 'Quit':
                     pygame.quit()
                     sys.exit()
+                    return
             continue
         
         #On running out of lives, display the game over modal
@@ -116,6 +117,7 @@ def run():
                 case 'Quit':
                     pygame.quit()
                     sys.exit()
+                    return
             continue
 
         #Standard gameplay state to run simulation
