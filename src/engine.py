@@ -26,7 +26,7 @@ def run():
 
     screen = pygame.display.set_mode(
         (globals.WINDOW_WIDTH, globals.WINDOW_HEIGHT))
-    pygame.display.set_caption("Asteroid Survivors")
+    pygame.display.set_caption("Modern Asteroids")
     background = pygame.image.load(bg_path)
 
     clock = globals.CLOCK
