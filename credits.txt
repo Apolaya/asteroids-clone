@@ -2,10 +2,10 @@ Music:
 "Through Space" by maxstack licensed CC-BY-SA 3.0 https://opengameart.org/content/through-space
 
 Sound:
-"Laser Fire" by dklon licensed CC-BY 3.0 https://opengameart.org/content/laser-fire
-"Space Shoot Sounds" by Robin Lamb licensed CC0 https://opengameart.org/content/space-shoot-sounds
+"Sci-Fi Laser Fire SFX" by K.L.Jonasson, Winnipeg, Canada. Triki Minut Interactive www.trikiminut.com licensed CC-BY 3.0/CC-BY-SA 3.0 https://opengameart.org/content/sci-fi-laser-fire-sfx
 "Chunky Explosion" by Joth licensed CC0 https://opengameart.org/content/chunky-explosion
 "Mechanical Explosion" by Spring Spring licensed CC0 https://opengameart.org/content/mechanical-explosion
+"Power Up, Level Up #beansjam" by Quitschie licensed CC0 https://opengameart.org/content/power-up-level-up-beansjam
 
 Art:
 "Asteroids" by phaelax licensed CC-BY-SA 3.0 https://opengameart.org/content/asteroids
@@ -13,3 +13,5 @@ Art:
 "Spaceship Bullet" by vergil1018 licensed CC0 https://opengameart.org/content/spaceship-bullet
 "Pack: Spaceships and Building" by MillionthVector licensed CC-BY 3.0 https://opengameart.org/content/pack-spaceships-and-building, MillionthVector blog: http://millionthvector.blogspot.de
 "Space Background" by Westbeam licensed CC0 https://opengameart.org/content/space-background-1
+"Shield Effect" by Bonsaiheldin licensed CC-BY 3.0 https://opengameart.org/content/shield-effect
+"PickUp Items - Icons" by Cethiel licensed CC0 https://opengameart.org/content/pickup-items-icons

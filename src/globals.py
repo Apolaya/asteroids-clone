@@ -14,6 +14,7 @@ PROJECTILE_SPEED = 500
 PROJECTILE_DAMAGE = 10
 
 """Create globally-accessible sprite groups."""
-PLAYER_SPRITE = pygame.sprite.GroupSingle()
+PLAYER_SPRITE = pygame.sprite.Group()
 ASTEROID_SPRITES = pygame.sprite.Group()
 PROJECTILE_SPRITES = pygame.sprite.Group()
+PICKUP_SPRITES = pygame.sprite.Group()
