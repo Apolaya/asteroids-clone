@@ -7,6 +7,7 @@ from . import globals
 from .Player import Player
 from .Asteroid import AsteroidManager
 from .UI import UI, Modal, Button, Text
+from .pickup import Pickup
 
 
 bg_path = Path("assets", "art", "background.png")
@@ -214,6 +215,7 @@ def run():
             globals.PLAYER_SPRITE.update()
             globals.ASTEROID_SPRITES.update()
             globals.PROJECTILE_SPRITES.update()
+            globals.PICKUP_SPRITES.update()
             scoreboard.set_text("Score: " + str(globals.SCORE))
             lives.set_text("Lives: " + str(globals.LIVES))
             screen.blit(background, (0, 0))
@@ -221,6 +223,10 @@ def run():
             # Handle collisions and increment score
             points, resources = spawner.handle_collision()
             globals.SCORE += points
+
+            #Spawn pickups for dropped resources
+            for (pos, type) in resources:
+                globals.PICKUP_SPRITES.add(Pickup(pos, type))
 
             # Check for game over
             if globals.LIVES < 1:
@@ -230,5 +236,6 @@ def run():
             globals.PLAYER_SPRITE.draw(screen)
             globals.ASTEROID_SPRITES.draw(screen)
             globals.PROJECTILE_SPRITES.draw(screen)
+            globals.PICKUP_SPRITES.draw(screen)
             ui.draw()
             pygame.display.flip()

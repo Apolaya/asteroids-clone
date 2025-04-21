@@ -4,15 +4,20 @@ from . import globals
 
 """Load asset file paths at import"""
 sprite_path = Path("assets", "art", "projectiles", "laserBullet.png")
+upgrade_path = Path("assets", "art", "projectiles", "laserBulletUp.png")
 
 """Class to handle projectiles fired from Player object."""
 class Projectile(pygame.sprite.Sprite):
     """Initialize with sprite properties and initial custom gameplay settings."""
-    def __init__(self, pos, heading):
+    def __init__(self, pos, heading, upgraded=False):
         super().__init__()
         self.ttl = 2500
         self.sprite_scaling = 0.4
-        self.large_image = pygame.image.load(sprite_path).convert_alpha()
+        #Update sprite image for damage boost projectiles
+        if upgraded:
+            self.large_image = pygame.image.load(upgrade_path).convert_alpha()
+        else:
+            self.large_image = pygame.image.load(sprite_path).convert_alpha()
         self.image = pygame.transform.scale_by(self.large_image, self.sprite_scaling)
         self.start_img = self.image
         self.mask = pygame.mask.from_surface(self.image)
