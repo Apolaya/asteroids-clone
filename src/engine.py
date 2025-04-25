@@ -74,14 +74,14 @@ def run():
     )
 
     scoreboard = Text(
-        (10,10), 32, (255,255,255),
+        (50,10), 32, (255,255,255),
         "Score: " + str(globals.SCORE),
         "Courier", bold=True
     )
     ui.add(scoreboard)
 
     lives = Text(
-        (250,10), 32, (255,255,255),
+        (300,10), 32, (255,255,255),
         "Lives: " + str(globals.LIVES),
         "Courier", bold=True
     )
