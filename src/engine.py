@@ -96,7 +96,7 @@ def run():
     )
     globals.PLAYER_SPRITE.add(player)
 
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(loops=-1)
 
     # Enter game loop
     while True:
