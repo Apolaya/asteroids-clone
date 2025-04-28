@@ -2,7 +2,7 @@ import pygame
 
 """Define configuration of scene settings."""
 WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 960
+WINDOW_HEIGHT = 720
 CLOCK = pygame.time.Clock()
 FRAMERATE = 60
 DT = 0
